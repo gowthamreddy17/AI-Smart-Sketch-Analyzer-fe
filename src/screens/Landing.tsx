@@ -66,7 +66,7 @@ import { WavyBackground } from "@/components/ui/wavy-background";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { Home, LogIn, UserPlus } from "lucide-react";
 import Lottie from "lottie-react";
-import animationData from "@/assets/animation.json";
+import animationData from "@/assets/Animation.json";
 import { motion } from "framer-motion";
 
 const Landing = () => {
