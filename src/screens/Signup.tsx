@@ -1,0 +1,79 @@
+import React, { useState } from "react";
+import { supabase } from "@/supabaseClient";
+import { useNavigate } from "react-router-dom";
+import { BackgroundLines } from "@/components/ui/background-lines";
+import { FloatingDock } from "@/components/ui/floating-dock";
+import { Home, LogIn, UserPlus } from "lucide-react";
+
+const Signup = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const { error } = await supabase.auth.signUp({ email, password });
+    if (error) {
+      alert(error.message);
+    } else {
+      alert("Check your email to confirm sign-up!");
+      navigate("/login");
+    }
+  };
+
+  return (
+    <>
+      <BackgroundLines
+        className="flex items-center justify-center h-screen w-full bg-black text-white"
+        svgOptions={{ duration: 9 }}
+      >
+        <form
+          onSubmit={handleSignup}
+          className="flex flex-col gap-4 bg-white/10 border border-white/20 p-8 rounded-xl backdrop-blur-md shadow-lg w-[320px] text-white"
+        >
+          <h2 className="text-2xl font-bold text-center">Sign Up</h2>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="p-3 rounded-md bg-white/20 border border-white/30 placeholder-white focus:outline-none focus:ring-2 focus:ring-green-400"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="p-3 rounded-md bg-white/20 border border-white/30 placeholder-white focus:outline-none focus:ring-2 focus:ring-green-400"
+          />
+          <button
+            type="submit"
+            className="p-3 rounded-md bg-green-600 hover:bg-green-700 transition-colors text-white font-semibold"
+          >
+            Sign Up
+          </button>
+        </form>
+      </BackgroundLines>
+
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
+        <FloatingDock
+          items={[
+            { title: "Home", icon: <Home className="w-5 h-5" />, href: "/" },
+            {
+              title: "Login",
+              icon: <LogIn className="w-5 h-5" />,
+              href: "/login",
+            },
+            {
+              title: "Signup",
+              icon: <UserPlus className="w-5 h-5" />,
+              href: "/signup",
+            },
+          ]}
+        />
+      </div>
+    </>
+  );
+};
+
+export default Signup;
